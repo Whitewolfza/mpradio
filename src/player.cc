@@ -29,8 +29,11 @@ void set_next_element()
 		//load_playback_status();    //already called at init stage
 	}else if(s.shuffle){
 		ps.songIndex=(rand() % qsize);
-	}else{
-		ps.songIndex=0;
+		cout<<"Playing random" <<endl;
+	}else if(!ps.reloading){
+		//ps.songIndex=0;
+		ps.songIndex=ps.songIndex +1;
+		cout<<"Next Index : "<<ps.songIndex <<endl;
 	}
 
 	/** set ps.songPath to the corresponding playlist index */
@@ -128,9 +131,10 @@ int play_storage()
 	open_control_pipe(MPRADIO_CTL);
 
 	while(repeat){
+		cout<<"Starting Playback"<<endl;
 		load_saved_list();
         qsize=pqueue.size();
-	  	if(qsize <= 0){
+	  	if(qsize <= 0 || ps.songIndex >= qsize){
             media_scan();										/**< generate a file list into pqueue */
 			qsize=pqueue.size();
 		}
@@ -143,10 +147,17 @@ int play_storage()
 		string pifm3=s.opSwitch+"audio - "+s.opSwitch+"freq";
 		string output="";
 
-		if(qsize <= 0) repeat=false;		/**< infinite loop protection if no file are present */
+		if(qsize <= 0|| ps.songIndex > qsize) repeat=false;		/**< infinite loop protection if no file are present */
 
-		while(qsize > 0)
+//		while(qsize > 0)
+		while(ps.songIndex < qsize)
 		{
+			cout<<"Playing songs"<<endl;
+			if(ps.stop){
+				repeat = false;
+				break;
+			}
+
 			set_next_element();
 
 			cout<<endl<<"PLAY: "<<ps.songPath<<endl;
@@ -157,29 +168,32 @@ int play_storage()
 
 			output=pifm1+" "+"\""+s.rdsStationName+"\""+" "+pifm2+" "+"\""+ps.songArtist+" - "+ps.songName+"\""+" "+pifm3+" "+s.freq;
 			set_output(output);			/**< change output device if specified */
-
+			ps.reloading = false;
 			string cmdline=trim+sox+" -t "+ps.fileFormat+sox_params+" | "+output;
 			cout<<"CMDLINE: "<<cmdline<<endl;
 
 			update_now_playing();
 
-			ps.reloading=false;
+			//ps.reloading=false;
 			fork_process(cmdline);
 
-			if(ps.reloading) continue;
-			cout<<"removing played song from playlist...\n";
-			pqueue.erase(it);	/**< shorten the playlist and save it after playback */
-			qsize--;
-			save_list(qsize);
-			remove(PSFILE);	/**< removing playback status file as not needed when playback ends */
+			//if(ps.reloading) continue;
+			//cout<<"removing played song from playlist...\n";
+			//pqueue.erase(it);	/**< shorten the playlist and save it after playback */
+			//qsize--;
+			//save_list(qsize);
+			//remove(PSFILE);	/**< removing playback status file as not needed when playback ends */
 		}
 	}
+	cout<<"Exiting"<<endl;
 	close_control_pipe();
+	ps.stop = false;
 	return 0;
 }
 
 int play_bt(string device)
 {
+	cout<<"Playing bluetooth"<<endl;
 	string sox_params="";
 	string output="sudo /usr/local/bin/"+s.implementation+" "+s.opSwitch+"ps 'BLUETOOTH' "+s.opSwitch+"rt 'A2DP BLUETOOTH' "+s.opSwitch+"freq "+s.freq+" "+s.opSwitch+"audio -";
 	set_output(output);			/**< change output device if specified */

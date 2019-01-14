@@ -12,3 +12,6 @@ void update_now_playing();
 void read_tag_to_status(string songpath);
 void get_file_format(string songpath);
 void control_pipe_setup();
+int getindex(string songpath);
+string get_album_art(string songpath);
+string get_file_at_index(int index);

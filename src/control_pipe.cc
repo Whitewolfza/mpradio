@@ -4,6 +4,9 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <memory>
+#include <vector>
+#include <list>
 
 using namespace std;
 #include "control_pipe.h"
@@ -15,6 +18,8 @@ using namespace std;
 FILE *f_ctl;
 extern playbackStatus ps;
 extern settings s;
+
+extern list<string> pqueue;
 
 /*
  * Opens a file (pipe) to be used to control the RDS coder, in non-blocking mode.
@@ -70,17 +75,20 @@ int poll_control_pipe() {
 	    s.resumePlayback = true;
 	    ps.resumed = false;
 	    killpg(ps.pid,15);
-    }else if(command.compare("PLAY") == 0){		//TODO: Implement HasSet array type and link the path to the index in playlist
-	    if(!(arguments[0] == '/')) return -1;
-	    ps.songPath = arguments;
-	    size_t found = arguments.find_last_of("/");
-	    ps.songName = arguments.substr(found+1);
-	    ps.reloading = true;
-	    ps.playbackPosition = 0;
-	    get_file_format(arguments);
-    	    s.resumePlayback = true;
-	    ps.resumed = false;
-	    killpg(ps.pid,15);
+    }else if(command.compare("PLAY") == 0){
+    	if(!(arguments[0] == '/')) return -1;
+		ps.songPath = arguments;
+		read_tag_to_status(ps.songPath);
+		ps.reloading = true;
+		ps.playbackPosition = 0;
+		cout<<"Old Index : "<<ps.songIndex <<endl;
+		ps.songIndex = getindex(ps.songPath);
+		get_file_format(arguments);
+		s.resumePlayback = true;
+		ps.resumed = false;
+		update_now_playing();
+		cout<<"New Index : "<<ps.songIndex <<endl;
+		killpg(ps.pid,15);
     }else if(command.compare("SCAN") == 0){
         if(arguments[0] != '/') return -1;
         s.storage=arguments;
@@ -89,7 +97,76 @@ int poll_control_pipe() {
         ps.reloading=true;
         killpg(ps.pid,15);
     }
+    else if(command.compare("PLAY") == 0){
+    	    if(!(arguments[0] == '/')) return -1;
+    	    ps.songPath = arguments;
+    	    read_tag_to_status(ps.songPath);
+    	    ps.reloading = true;
+    	    ps.playbackPosition = 0;
+    	    ps.songIndex = getindex(ps.songPath);
+    //	    ps.songName = ps.songIndex +ps.songName;
+    	    get_file_format(arguments);
+        	s.resumePlayback = true;
+    	    ps.resumed = false;
+    	    update_now_playing();
+    	    killpg(ps.pid,15);
+    }
+    else if(command.compare("PREV") == 0){
+    		ps.playbackPosition = 0;
+    		if(ps.songIndex == 0)
+    		{
+    			ps.songIndex = pqueue.size()-1;
+    		}
+    		else
+    		{
+    			ps.songIndex = ps.songIndex -1;
+    		}
+            ps.songPath = get_file_at_index(ps.songIndex);
+			read_tag_to_status(ps.songPath);
+    		ps.reloading = true;
+    		s.resumePlayback = true;
+    		ps.resumed = false;
+    		get_file_format(ps.songPath);
+    		update_now_playing();
+    		killpg(ps.pid,15);
+    }
+    else if(command.compare("BT") == 0){
+             if(arguments[0] != '/') return -1;
+             ps.songPath = "BLUETOOTH";
+         	ps.songArtist = "";
+         	ps.songAlbum = "";
+         	ps.songYear = "";
+         	ps.AlbumArt = "";
+             update_now_playing();
+            /* cout<<"Stopping Playback"<<endl;
+             ps.stop = true;
+             ps.reloading = true;
+             killpg(ps.pid,15);
+             //system(("systemctl start mpradio-bt@"+arguments).c_str());
+             //system(("killall mpradio && killall sox").c_str());
+             cout<<"Playing Bluetooth from : "<< arguments  << endl;
+             play_bt(arguments);*/
+             system(("/home/pi/play-bt.sh "+arguments).c_str());
+     }
+    else if(command.compare("RT") == 0){
+        if(arguments[0] != '/') return -1;
+       /* cout<<"Stopping Playback"<<endl;
+        ps.stop = true;
+        ps.reloading = true;
+        killpg(ps.pid,15);
+        //system(("systemctl start mpradio-bt@"+arguments).c_str());
+        //system(("killall mpradio && killall sox").c_str());
+        cout<<"Playing Bluetooth from : "<< arguments  << endl;
+        play_bt(arguments);*/
+        ps.songPath = arguments;
+		ps.songArtist = "";
+		ps.songAlbum = "";
+		ps.songYear = "";
+		ps.AlbumArt = "";
+        update_now_playing();
+    }
 
+    //ps.reloading = false;
     return 0;
 }
 
@@ -97,3 +174,11 @@ int close_control_pipe() {
     if(f_ctl) return fclose(f_ctl);
     else return 0;
 }
+
+//template<class T>
+//shared_ptr<vector<T>>
+//ListToVector(list<T> List) {
+//shared_ptr<vector<T>> Vector {
+//        new vector<string>(List.begin(), List.end()) }
+//return Vector;
+//}
