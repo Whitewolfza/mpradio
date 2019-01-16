@@ -8,7 +8,7 @@ getTitle(){
         # By sourcing it, we catch variables set by update_now_playing().
 #       [ -f /pirateradio/now_playing ] && source /pirateradio/now_playing
         eval "$(cat /pirateradio/now_playing)"
-        # Now, pass PATTERN to eval() to compose the pattern together
+       # Now, pass PATTERN to eval() to compose the pattern together
         # E.g.: "$ARTIST_NAME - $SONG_NAME" becomes "Stevie Wonder - Superstiti$
         eval echo "$PATTERN"
 }
