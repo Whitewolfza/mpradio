@@ -166,6 +166,10 @@ int poll_control_pipe() {
 		ps.AlbumArt = "";
         update_now_playing();
     }
+    else if(command.compare("STOP") == 0){
+        if(arguments[0] != '/') return -1;
+        system("systemctl stop mpradio");
+    }
 
     //ps.reloading = false;
     return 0;
