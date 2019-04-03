@@ -187,10 +187,10 @@ fi
 usermod -a -G lp pi
 
 #copy play bt file
-echo "Copying play bluetooth script file"
-sudo cp /play-bt.sh /var/play-bt.sh
+echo "Copying play bluetooth script files"
+sudo cp play-bt.sh /var/play-bt.sh
 sudo chmod +x /var/play-bt.sh
-sudo cp /stop-bt.sh /var/stop-bt.sh
+sudo cp stop-bt.sh /var/stop-bt.sh
 sudo chmod +x /var/stop-bt.sh
 
 
