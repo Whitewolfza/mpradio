@@ -146,7 +146,8 @@ int poll_control_pipe() {
              //system(("killall mpradio && killall sox").c_str());
              cout<<"Playing Bluetooth from : "<< arguments  << endl;
              play_bt(arguments);*/
-             system(("/home/pi/play-bt.sh "+arguments).c_str());
+             //system(("/home/pi/play-bt.sh "+arguments).c_str());
+             system(("/var/play-bt.sh "+arguments).c_str());
      }
     else if(command.compare("RT") == 0){
         if(arguments[0] != '/') return -1;

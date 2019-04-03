@@ -160,7 +160,7 @@ void update_now_playing() {
 			<< "\"\n" << "ARTIST_NAME=" "\"" << ps.songArtist << "\"\n"
 			<< "ALBUM_ART=" "\"" << ps.AlbumArt << "\"" << endl;
 	playing.close();
-	std::string command("cd /home/pi/ && sudo ./fixrds.sh&");
+	//std::string command("cd /home/pi/ && sudo ./fixrds.sh&");
 	system(command.c_str());
 }
 

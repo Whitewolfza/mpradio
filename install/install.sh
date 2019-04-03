@@ -186,6 +186,14 @@ fi
 
 usermod -a -G lp pi
 
+#copy play bt file
+echo "Copying play bluetooth script file"
+sudo cp /play-bt.sh /var/play-bt.sh
+sudo chmod +x /var/play-bt.sh
+sudo cp /stop-bt.sh /var/stop-bt.sh
+sudo chmod +x /var/stop-bt.sh
+
+
 # Edit /lib/systemd/system/bluetooth.service to enable BT services
 # Credits to Patrick Hundal, hacks.mozilla.org
 sed -i: 's|^Exec.*toothd$| \
