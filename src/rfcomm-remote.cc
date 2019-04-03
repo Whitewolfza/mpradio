@@ -63,6 +63,8 @@ void handle(string message){
 		return;
 	}else if (command.compare("now_playing") == 0){
 		reply = get_file_content("/pirateradio/now_playing");
+	}else if (command.compare("ps") == 0){
+		reply = get_file_content("/pirateradio/ps");
 	}else if(command.compare("playlist") == 0){
 		reply = get_file_content("/pirateradio/playlist");
 	}else{

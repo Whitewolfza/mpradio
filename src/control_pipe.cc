@@ -75,7 +75,7 @@ int poll_control_pipe() {
 	    s.resumePlayback = true;
 	    ps.resumed = false;
 	    killpg(ps.pid,15);
-    }else if(command.compare("PLAY") == 0){
+    }/*else if(command.compare("PLAY") == 0){
     	if(!(arguments[0] == '/')) return -1;
 		ps.songPath = arguments;
 		read_tag_to_status(ps.songPath);
@@ -89,7 +89,7 @@ int poll_control_pipe() {
 		update_now_playing();
 		cout<<"New Index : "<<ps.songIndex <<endl;
 		killpg(ps.pid,15);
-    }else if(command.compare("SCAN") == 0){
+    }*/else if(command.compare("SCAN") == 0){
         if(arguments[0] != '/') return -1;
         s.storage=arguments;
         media_scan();

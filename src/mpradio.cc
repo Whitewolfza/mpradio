@@ -34,8 +34,9 @@ using namespace std;
 */
 int main(int argc, char* argv[])
 {
+	system("sudo fsck /pirateradio/ -a");
+	usleep(3000 * 1000);
 	getsettings();
-	system(" sudo fsck /pirateradio/ -a");
 	if(argc>1){
 		cout<<argv[1]<<endl;
 		play_bt(argv[1]);
