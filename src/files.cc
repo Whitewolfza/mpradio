@@ -161,7 +161,7 @@ void update_now_playing() {
 			<< "ALBUM_ART=" "\"" << ps.AlbumArt << "\"" << endl;
 	playing.close();
 	//std::string command("cd /home/pi/ && sudo ./fixrds.sh&");
-	system(command.c_str());
+	//system(command.c_str());
 }
 
 void update_playback_status() {
