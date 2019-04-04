@@ -199,7 +199,8 @@ void read_tag_to_status(string songpath) {
 	ps.songArtist = SAFE_NULL(ID3_GetArtist(&tag));
 	ps.songAlbum = SAFE_NULL(ID3_GetAlbum(&tag));
 	ps.songYear = SAFE_NULL(ID3_GetYear(&tag));
-	ps.AlbumArt = get_album_art(songpath);
+	ps.AlbumArt = SAFE_NULL(ID3_GetComment(&tag));
+	//ps.AlbumArt = get_album_art(songpath);
 
 	if (ps.songName.empty()) {
 		size_t found = songpath.find_last_of("/");// extract song name out of the absolute file path
