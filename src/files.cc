@@ -155,10 +155,13 @@ void load_playback_status() {
 void update_now_playing() {
 	ofstream playing;
 	playing.open(NOW_PLAYING);
-	playing << "SONG_NAME=" "\"" << ps.songName << "\"\n" << "SONG_YEAR=" "\""
-			<< ps.songYear << "\"\n" << "ALBUM_NAME=" "\"" << ps.songAlbum
-			<< "\"\n" << "ARTIST_NAME=" "\"" << ps.songArtist << "\"\n"
-			<< "ALBUM_ART=" "\"" << ps.AlbumArt << "\"" << endl;
+	playing << "SONG_NAME=" "\"" << ps.songName << "\"\n"
+			<< "SONG_YEAR=" "\"" << ps.songYear << "\"\n"
+			<< "ALBUM_NAME=" "\"" << ps.songAlbum << "\"\n"
+			<< "ARTIST_NAME=" "\"" << ps.songArtist << "\"\n"
+			<< "ALBUM_ART=" "\"" << ps.AlbumArt << "\"\n"
+			<< "FILENAME=" "\"" << ps.songPath << "\""
+			<< endl;
 	playing.close();
 	//std::string command("cd /home/pi/ && sudo ./fixrds.sh&");
 	//system(command.c_str());
