@@ -268,7 +268,7 @@ void read_tag_of_file(string songpath) {
 		ps.songName = songname;
 	}
 	//Cleanup
-	ID3_FreeString(&tag);
+	//ID3_FreeString(&tag);
 }
 
 string get_album_art(string songpath) {
