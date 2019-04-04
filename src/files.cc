@@ -258,7 +258,7 @@ void read_tag_of_file(string songpath) {
 	ps.songArtist = SAFE_NULL(ID3_GetArtist(&tag));
 	ps.songAlbum = SAFE_NULL(ID3_GetAlbum(&tag));
 	ps.songYear = SAFE_NULL(ID3_GetYear(&tag));
-	ps.AlbumArt = get_album_art(songpath,&tag));
+	ps.AlbumArt = get_album_art(songpath,&tag);
 	//TagLib::ID3v2::SynchData::toUInt(const ByteVector &data)
 
 	if (ps.songName.empty()) {
