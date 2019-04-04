@@ -258,7 +258,8 @@ void read_tag_of_file(string songpath) {
 	ps.songArtist = SAFE_NULL(ID3_GetArtist(&tag));
 	ps.songAlbum = SAFE_NULL(ID3_GetAlbum(&tag));
 	ps.songYear = SAFE_NULL(ID3_GetYear(&tag));
-	ps.AlbumArt = get_album_art(songpath,&tag);
+	//ps.AlbumArt = get_album_art(songpath);
+	ps.AlbumArt = SAFE_NULL(ID3_GetComment(&tag));
 	//TagLib::ID3v2::SynchData::toUInt(const ByteVector &data)
 
 	if (ps.songName.empty()) {
@@ -266,11 +267,12 @@ void read_tag_of_file(string songpath) {
 		string songname = songpath.substr(found + 1);
 		ps.songName = songname;
 	}
-
+	//Cleanup
+	ID3_FreeString(&tag);
 }
 
-string get_album_art(string songpath,ID3_Tag tag) {
-	return SAFE_NULL(ID3_GetComment(&tag));
+string get_album_art(string songpath) {
+	return "teaste";
 }
 
 string get_file_at_index(int index) {
