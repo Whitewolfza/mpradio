@@ -20,6 +20,12 @@ update_script() {
 	exit $?
 }
 
+#Save Current Directory
+cd install
+current_dir="$PWD"
+
+
+
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -187,7 +193,7 @@ fi
 usermod -a -G lp pi
 
 #copy play bt file
-cd install
+cd "$current_dir"
 echo "Copying play bluetooth script files"
 sudo cp play-bt.sh /var/play-bt.sh
 sudo chmod +x /var/play-bt.sh
