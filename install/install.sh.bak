@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -c
 
 CORE_INSTALL=""
 
@@ -187,7 +187,6 @@ fi
 usermod -a -G lp pi
 
 #copy play bt file
-cd install
 echo "Copying play bluetooth script files"
 sudo cp play-bt.sh /var/play-bt.sh
 sudo chmod +x /var/play-bt.sh

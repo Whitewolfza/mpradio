@@ -160,7 +160,10 @@ void update_now_playing() {
 			<< "ALBUM_NAME=" "\"" << ps.songAlbum << "\"\n"
 			<< "ARTIST_NAME=" "\"" << ps.songArtist << "\"\n"
 			<< "ALBUM_ART=" "\"" << ps.AlbumArt << "\"\n"
-			<< "FILENAME=" "\"" << ps.songPath << "\""
+			<< "FILENAME=" "\"" << ps.songPath << "\"\n"
+			<< "INDEX=" "\"" << ps.songIndex << "\""
+
+			//<< "POSITION=" "\"" << ps.playbackPosition << "\"n"
 			<< endl;
 	playing.close();
 	//std::string command("cd /home/pi/ && sudo ./fixrds.sh&");
