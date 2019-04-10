@@ -117,7 +117,7 @@ int poll_control_pipe() {
     		killpg(ps.pid,15);
     }
     else if(command.compare("BT") == 0){
-    	if(arguments.find(":") !== std::string::npos) return -1;
+    	if(arguments.find(":") != std::string::npos) return -1;
 		 ps.songPath = "BLUETOOTH";
 		 ps.songArtist = "";
 		 ps.songAlbum = "";
