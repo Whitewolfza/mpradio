@@ -170,6 +170,16 @@ int poll_control_pipe() {
         if(arguments[0] != '/') return -1;
 		system(("systemctl stop mpradio"+arguments).c_str());
     }
+    else if(command.compare("AUX") == 0){
+             if(arguments[0] != '/') return -1;
+             ps.songPath = "AUX";
+         	ps.songArtist = "";
+         	ps.songAlbum = "";
+         	ps.songYear = "";
+         	ps.AlbumArt = "";
+            update_now_playing();
+            play_aux();
+     }
 
     //ps.reloading = false;
     return 0;

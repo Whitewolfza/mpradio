@@ -12,3 +12,5 @@ int play_storage();
 int play_bt(string device);
 
 void set_next_element();
+
+int play_aux();
