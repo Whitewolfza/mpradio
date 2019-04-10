@@ -216,7 +216,7 @@ int play_bt(string device)
 int play_aux()
 {
 	ps.stop = true;
-	killpg(ps.pid,15);
+	//killpg(ps.pid,15);
 	//close_control_pipe();
 	cout<<"Playing AUX"<<endl;
 	string sox_params="";
