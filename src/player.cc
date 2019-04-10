@@ -194,7 +194,7 @@ int play_storage()
 int play_bt(string device)
 {
 	ps.stop = true;
-	killpg(ps.pid,15);
+	//killpg(ps.pid,15);
 	close_control_pipe();
 	cout<<"Playing bluetooth"<<endl;
 	string sox_params="";
@@ -216,7 +216,7 @@ int play_bt(string device)
 int play_aux()
 {
 	ps.stop = true;
-	killpg(ps.pid,15);
+	//killpg(ps.pid,15);
 	close_control_pipe();
 	cout<<"Playing AUX"<<endl;
 	string sox_params="";
