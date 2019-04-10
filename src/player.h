@@ -13,4 +13,4 @@ int play_bt(string device);
 
 void set_next_element();
 
-int play_aux();
+public int play_aux();

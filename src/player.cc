@@ -210,7 +210,7 @@ int play_bt(string device)
 	return 0;
 }
 
-int play_aux()
+public int play_aux()
 {
 	cout<<"Playing AUX"<<endl;
 		string sox_params="";
