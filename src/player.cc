@@ -216,8 +216,8 @@ int play_bt(string device)
 int play_aux()
 {
 	ps.stop = true;
-	//killpg(ps.pid,15);
-	close_control_pipe();
+	killpg(ps.pid,15);
+	//close_control_pipe();
 	cout<<"Playing AUX"<<endl;
 	string sox_params="";
 	string output="sudo /usr/local/bin/"+s.implementation+" "+s.opSwitch+"ps 'AUX' "+s.opSwitch+"rt 'A2DP AUX' "+s.opSwitch+"freq "+s.freq+" "+s.opSwitch+"audio -";
@@ -227,7 +227,7 @@ int play_aux()
 	ps.songName = "Bluetooth";
 	update_now_playing();
 
-	string cmdline="arecord -fS16_LE -r 44100 -Dplughw:1,0 -c 2 -| sox -t raw -v "+s.btGain+" -G -b 16 -e signed -c 2 -r 44100 - -t wav - "+sox_params+" | "+output;
+	string cmdline="arecord -fS16_LE -r 44100 -Dplughw:1,0 -c 2 -| sox -t raw  -G -b 16 -e signed -c 2 -r 44100 - -t wav - "+sox_params+" | "+output;
 	cout<<"CMDLINE: "<<cmdline<<endl;
 
 	system(cmdline.c_str());
