@@ -136,7 +136,8 @@ int poll_control_pipe() {
         update_now_playing();
     }
     else if(command.compare("STOP") == 0){
-		system(("sudo systemctl stop mpradio").c_str());
+    	arguments = "stop";
+		system(("sudo systemctl "+arguments+" mpradio").c_str());
     }
     else if(command.compare("AUX") == 0){
 		ps.songPath = "AUX";
